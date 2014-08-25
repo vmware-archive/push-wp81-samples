@@ -105,10 +105,12 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MSSPush-Base">
+    <Reference Include="MSSPush-Base, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\MSSPush-Base.dll</HintPath>
     </Reference>
-    <Reference Include="MSSPush-Universal">
+    <Reference Include="MSSPush-Universal, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\lib\MSSPush-Universal.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">

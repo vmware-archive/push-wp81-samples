@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -14,6 +15,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+using MSSPush_Base.Models;
+using MSSPush_Universal;
 
 namespace push_wp81_sample
 {
@@ -22,6 +25,10 @@ namespace push_wp81_sample
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private const string VariantUuid = "a01e14f5-7f4f-4bdb-8fee-2d6f92e424fa";
+        private const string VariantSecret = "9c5c6d60-902a-46b5-af14-a76538291d57";
+        private const string BaseUrl = "http://cfms-push-service-dev.main.vchs.cfms-apps.com";
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -50,14 +57,50 @@ namespace push_wp81_sample
             OutputTextBox.Text = "Press 'Register' to try registering for push notifications.";
         }
 
-        private void RegisterButton_OnClick(object sender, RoutedEventArgs e)
+        private async void RegisterButton_OnClick(object sender, RoutedEventArgs e)
         {
-            OutputTextBox.Text = "RegisterButton clicked\n" + OutputTextBox.Text;
+            Log("Registering for push...");
+            MSSPush push = MSSPush.SharedInstance;
+            MSSParameters parameters = GetMssParameters();
+            await push.RegisterForPushAsync(parameters, completionAction: (result) =>
+            {
+                if (result.Succeeded)
+                {
+                    Log("Push registration succeeded.");
+                }
+                else
+                {
+                    Log("Push registration failed: " + result.ErrorMessage + ".");
+                }
+            });
         }
 
-        private void UnregisterButton_OnClick(object sender, RoutedEventArgs e)
+        private static MSSParameters GetMssParameters()
         {
-            // TODO - implement me
+            return new MSSParameters(VariantUuid, VariantSecret, BaseUrl);
+        }
+
+        private void Log(string logString)
+        {
+            OutputTextBox.Text = logString + "\n" + OutputTextBox.Text;
+            Debug.WriteLine(logString);
+        }
+
+        private async void UnregisterButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            MSSPush push = MSSPush.SharedInstance;
+            MSSParameters parameters = GetMssParameters();
+            await push.UnregisterForPushAsync(parameters, (result) =>
+            {
+                if (result.Succeeded)
+                {
+                    Log("Push unregistration succeeded.");
+                }
+                else
+                {
+                    Log("Push unregistration failed: " + result.ErrorMessage + ".");
+                }
+            });
         }
 
         private void TestPushButton_OnClick(object sender, RoutedEventArgs e)
