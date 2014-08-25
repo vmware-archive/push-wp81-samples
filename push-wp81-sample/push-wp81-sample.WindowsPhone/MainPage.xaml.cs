@@ -44,5 +44,25 @@ namespace push_wp81_sample
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
         }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            OutputTextBox.Text = "Press 'Register' to try registering for push notifications.";
+        }
+
+        private void RegisterButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            OutputTextBox.Text = "RegisterButton clicked\n" + OutputTextBox.Text;
+        }
+
+        private void UnregisterButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            // TODO - implement me
+        }
+
+        private void TestPushButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            // TODO - implement me
+        }
     }
 }
