@@ -1,41 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-
-  <Identity Name="f5750cb3-5ff2-410f-a224-c9c44b359af7"
-            Publisher="CN=DX122"
-            Version="1.0.0.0" />
-
-  <mp:PhoneIdentity PhoneProductId="f5750cb3-5ff2-410f-a224-c9c44b359af7" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
-
+  <Identity Name="f5750cb3-5ff2-410f-a224-c9c44b359af7" Publisher="CN=DX122" Version="1.0.0.0" />
+  <mp:PhoneIdentity PhoneProductId="f5750cb3-5ff2-410f-a224-c9c44b359af7" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>push-wp81-sample.WindowsPhone</DisplayName>
     <PublisherDisplayName>DX122</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
-
   <Prerequisites>
     <OSMinVersion>6.3.1</OSMinVersion>
     <OSMaxVersionTested>6.3.1</OSMaxVersionTested>
   </Prerequisites>
-  
   <Resources>
-    <Resource Language="x-generate"/>
+    <Resource Language="x-generate" />
   </Resources>
-
   <Applications>
-    <Application Id="App"
-        Executable="$targetnametoken$.exe"
-        EntryPoint="push_wp81_sample.WindowsPhone.App">
-        <m3:VisualElements
-            DisplayName="push-wp81-sample.WindowsPhone"
-            Square150x150Logo="Assets\Logo.png"
-            Square44x44Logo="Assets\SmallLogo.png"
-            Description="push-wp81-sample.WindowsPhone"
-            ForegroundText="light"
-            BackgroundColor="transparent">
-            <m3:DefaultTile Wide310x150Logo="Assets\WideLogo.png" Square71x71Logo="Assets\Square71x71Logo.png"/>
-            <m3:SplashScreen Image="Assets\SplashScreen.png"/>
-        </m3:VisualElements>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="push_wp81_sample.WindowsPhone.App">
+      <m3:VisualElements DisplayName="Cloud FoundaryPush Sample" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="push-wp81-sample.WindowsPhone" ForegroundText="light" BackgroundColor="transparent">
+        <m3:DefaultTile Wide310x150Logo="Assets\WideLogo.png" Square71x71Logo="Assets\Square71x71Logo.png">
+        </m3:DefaultTile>
+        <m3:SplashScreen Image="Assets\SplashScreen.png" />
+      </m3:VisualElements>
     </Application>
   </Applications>
   <Capabilities>
