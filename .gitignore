@@ -4,6 +4,7 @@
 
 #Library files
 *.dll
+*.pdb
 
 #Visual Studio files
 *.[Oo]bj
