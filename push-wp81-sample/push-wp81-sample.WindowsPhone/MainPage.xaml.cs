@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Networking.PushNotifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -74,12 +75,21 @@ namespace push_wp81_sample
                 if (result.Succeeded)
                 {
                     Log("Push registration succeeded.");
+                    if (result.RawNotificationChannel != null)
+                    {
+                        result.RawNotificationChannel.PushNotificationReceived += OnPushNotificationReceived;
+                    }
                 }
                 else
                 {
                     Log("Push registration failed: " + result.ErrorMessage + ".");
                 }
             });
+        }
+
+        private void OnPushNotificationReceived(PushNotificationChannel sender, PushNotificationReceivedEventArgs args)
+        {
+            Debug.WriteLine("Notification received!");
         }
 
         private static MSSParameters GetMssParameters()
