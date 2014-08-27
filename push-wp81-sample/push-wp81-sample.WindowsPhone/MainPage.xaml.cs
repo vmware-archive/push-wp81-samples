@@ -30,11 +30,11 @@ namespace push_wp81_sample
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        private const string VariantUuid = "a01e14f5-7f4f-4bdb-8fee-2d6f92e424fa";
-        private const string VariantSecret = "9c5c6d60-902a-46b5-af14-a76538291d57";
+        private const string VariantUuid = "420ac641-e9da-41fa-a9bf-d028a747bc37";
+        private const string VariantSecret = "e4417af0-3f45-4735-9da5-ed6c371682c5";
         private const string BaseUrl = "http://cfms-push-service-dev.main.vchs.cfms-apps.com";
-        private const string EnvironmentUuid = "a6b0ffd6-f944-46b9-89f9-132c5550ba92";
-        private const string EnvironmentKey = "647d9c48-5ce5-4196-807c-e8fec679d38d";
+        private const string EnvironmentUuid = "3f19f4a4-67b4-45a9-aa19-e73b9fc8bc68";
+        private const string EnvironmentKey = "92d293de-ebf7-4426-8546-b98c8ebb4333";
 
         public MainPage()
         {
@@ -113,7 +113,7 @@ namespace push_wp81_sample
         private async void TestPushButton_OnClick(object sender, RoutedEventArgs e)
         {
 
-            var httpRequest = WebRequest.CreateHttp(String.Format("{0}/{1}", BaseUrl, "/v1/push"));
+            var httpRequest = WebRequest.CreateHttp(String.Format("{0}/v1/push", BaseUrl));
             httpRequest.Method = "POST";
             httpRequest.Accept = "application/json";
             httpRequest.Headers[HttpRequestHeader.Authorization] = BasicAuthorizationValue(EnvironmentUuid, EnvironmentKey);
@@ -152,6 +152,12 @@ namespace push_wp81_sample
                 return;
             }
 
+            if (IsSuccessfulHttpStatusCode(httpResponse.StatusCode))
+            {
+                Log("Server accepted message for delivery.");
+                return;
+            }
+
             string jsonResponse = null;
             using (var reader = new StreamReader(httpResponse.GetResponseStream()))
             {
@@ -160,9 +166,14 @@ namespace push_wp81_sample
             }
         }
 
-        private string BasicAuthorizationValue(string environmentUuid, string environementKey)
+        private bool IsSuccessfulHttpStatusCode(HttpStatusCode statusCode)
         {
-            var stringToEncode = String.Format("{0}:{1}", environmentUuid, environementKey);
+            return (statusCode >= HttpStatusCode.OK && statusCode < HttpStatusCode.Ambiguous);
+        }
+
+        private string BasicAuthorizationValue(string environmentUuid, string environmentKey)
+        {
+            var stringToEncode = String.Format("{0}:{1}", environmentUuid, environmentKey);
             var data = Encoding.UTF8.GetBytes(stringToEncode);
             var base64 = Convert.ToBase64String(data);
             return String.Format("Basic {0}", base64);

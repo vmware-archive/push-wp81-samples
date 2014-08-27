@@ -29,9 +29,6 @@ namespace push_wp81_sample
     /// </summary>
     public sealed partial class App : Application
     {
-        private const string VariantUuid = "a01e14f5-7f4f-4bdb-8fee-2d6f92e424fa";
-        private const string VariantSecret = "9c5c6d60-902a-46b5-af14-a76538291d57";
-        private const string BaseServerUrl = "http://cfms-push-service-dev.main.vchs.cfms-apps.com";
 #if WINDOWS_PHONE_APP
         private TransitionCollection transitions;
 #endif
@@ -110,20 +107,6 @@ namespace push_wp81_sample
 
             // Ensure the current window is active
             Window.Current.Activate();
-
-            MSSPush push = MSSPush.SharedInstance;
-            MSSParameters parameters = new MSSParameters(VariantUuid, VariantSecret, BaseServerUrl);
-            push.RegisterForPushAsync(parameters, completionAction: (result) =>
-            {
-                if (result.Succeeded)
-                {
-                    Debug.WriteLine("Push registration succeeded.");
-                }
-                else
-                {
-                    Debug.WriteLine("Push registration failed: '" + result.ErrorMessage + "'.");
-                }
-            });
         }
 
 #if WINDOWS_PHONE_APP
