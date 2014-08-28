@@ -46,22 +46,6 @@ namespace push_wp81_sample
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
-        /// <summary>
-        /// Invoked when this page is about to be displayed in a Frame.
-        /// </summary>
-        /// <param name="e">Event data that describes how this page was reached.
-        /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            // TODO: Prepare page for display here.
-
-            // TODO: If your application contains multiple pages, ensure that you are
-            // handling the hardware Back button by registering for the
-            // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
-            // If you are using the NavigationHelper provided by some templates,
-            // this event is handled for you.
-        }
-
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             OutputTextBox.Text = "Press 'Register' to try registering for push notifications.";
@@ -90,9 +74,15 @@ namespace push_wp81_sample
             });
         }
 
-        private void OnPushNotificationReceived(PushNotificationChannel sender, PushNotificationReceivedEventArgs args)
+        private void OnPushNotificationReceived(PushNotificationChannel sender, PushNotificationReceivedEventArgs e)
         {
-            Log("Notification received!");
+            if (e != null && e.RawNotification != null && !String.IsNullOrEmpty(e.RawNotification.Content)) {
+                Log("Notification received: '" + e.RawNotification.Content + "'.");
+            }
+            else
+            {
+                Log("Notification received with no message.");
+            }
         }
 
         private static MSSParameters GetMssParameters()
