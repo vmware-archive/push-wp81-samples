@@ -42,13 +42,11 @@ namespace push_wp81_sample
         public MainPage()
         {
             this.InitializeComponent();
-
             this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            OutputTextBox.Text = "Press 'Register' to try registering for push notifications.";
         }
 
         private async void RegisterButton_OnClick(object sender, RoutedEventArgs e)
@@ -94,10 +92,27 @@ namespace push_wp81_sample
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                OutputTextBox.Text = logString + "\n" + OutputTextBox.Text;
+                OutputTextBox.Text += "\n" + logString;
+                ScrollTextBoxToBottom(OutputTextBox);
                 Debug.WriteLine(logString);
             });
         }
+
+        private void ScrollTextBoxToBottom(TextBox textBox)
+        {
+            var grid = VisualTreeHelper.GetChild(textBox, 0) as Grid;
+            if (grid == null)
+            {
+                return;
+            }
+            for (var i = 0; i <= VisualTreeHelper.GetChildrenCount(grid) - 1; i++)
+            {
+                object obj = VisualTreeHelper.GetChild(grid, i);
+                if (!(obj is ScrollViewer)) continue;
+                ((ScrollViewer)obj).ChangeView(0.0f, ((ScrollViewer)obj).ExtentHeight, 1.0f);
+                break;
+            }
+        } 
 
         private async void UnregisterButton_OnClick(object sender, RoutedEventArgs e)
         {

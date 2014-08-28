@@ -53,7 +53,7 @@
                  Grid.Column="0"
                  Grid.Row="1"
                 TextWrapping="Wrap"
-                Text="Successfully registered for push.&#xD;&#xA;Registering for push..."
+                 Text="Press 'Register' to try registering for push notifications."
                 IsReadOnly="true"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"/>
