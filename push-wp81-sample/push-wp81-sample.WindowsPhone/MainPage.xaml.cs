@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Networking.PushNotifications;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -36,6 +37,7 @@ namespace push_wp81_sample
         private const string BaseUrl = "http://cfms-push-service-dev.main.vchs.cfms-apps.com";
         private const string EnvironmentUuid = "3f19f4a4-67b4-45a9-aa19-e73b9fc8bc68";
         private const string EnvironmentKey = "92d293de-ebf7-4426-8546-b98c8ebb4333";
+        private const string DeviceAlias = "BANANAS";
 
         public MainPage()
         {
@@ -77,6 +79,7 @@ namespace push_wp81_sample
                     Log("Push registration succeeded.");
                     if (result.RawNotificationChannel != null)
                     {
+                        Log("Setting up to receive push notifications.");
                         result.RawNotificationChannel.PushNotificationReceived += OnPushNotificationReceived;
                     }
                 }
@@ -89,18 +92,21 @@ namespace push_wp81_sample
 
         private void OnPushNotificationReceived(PushNotificationChannel sender, PushNotificationReceivedEventArgs args)
         {
-            Debug.WriteLine("Notification received!");
+            Log("Notification received!");
         }
 
         private static MSSParameters GetMssParameters()
         {
-            return new MSSParameters(VariantUuid, VariantSecret, BaseUrl);
+            return new MSSParameters(VariantUuid, VariantSecret, BaseUrl, DeviceAlias);
         }
 
         private void Log(string logString)
         {
-            OutputTextBox.Text = logString + "\n" + OutputTextBox.Text;
-            Debug.WriteLine(logString);
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                OutputTextBox.Text = logString + "\n" + OutputTextBox.Text;
+                Debug.WriteLine(logString);
+            });
         }
 
         private async void UnregisterButton_OnClick(object sender, RoutedEventArgs e)
@@ -139,7 +145,7 @@ namespace push_wp81_sample
                     return;
                 }
                 var deviceUuids = new string[] {deviceUuid as String};
-                var request = PushRequest.MakePushRequest("This message was pushed at " + System.DateTime.Now, deviceUuids);
+                var request = PushRequest.MakePushRequest("This message was pushed at " + System.DateTime.Now, deviceUuids, "raw", "ToastText01", new Dictionary<string, string>() {{"textField1", "This message is all toasty!"}});
                 var jsonString = JsonConvert.SerializeObject(request);
                 var bytes = Encoding.UTF8.GetBytes(jsonString);
                 stream.Write(bytes, 0, bytes.Length);

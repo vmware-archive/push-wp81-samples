@@ -22,13 +22,22 @@ namespace push_wp81_sample.Model
         {
         }
 
-        public static PushRequest MakePushRequest(string body, string[] devices)
+        public static PushRequest MakePushRequest(string body, string[] devices, string templateType, string templateName, Dictionary<string, string> templateFields)
         {
             return new PushRequest
             {
                 Message = new PushRequestMessage
                 {
-                    Body = body
+                    Body = body,
+                    Custom = new PushRequestMessageCustom
+                    {
+                        Windows8 = new PushRequestMessageCustomWindows8
+                        {
+                            Type = templateType,
+                            TemplateName = templateName,
+                            TemplateFields = templateFields
+                        }
+                    }
                 },
 
                 Target = new PushRequestTarget
@@ -46,6 +55,29 @@ namespace push_wp81_sample.Model
     {
         [DataMember, JsonProperty(PropertyName = "body", NullValueHandling = NullValueHandling.Ignore)]
         public string Body { get; set; }
+
+        [DataMember, JsonProperty(PropertyName = "custom", NullValueHandling = NullValueHandling.Ignore)]        
+        public PushRequestMessageCustom Custom { get; set; }
+    }
+
+    [JsonObject(MemberSerialization.OptIn)]
+    [DataContract]
+    internal class PushRequestMessageCustom
+    {
+        [DataMember, JsonProperty(PropertyName = "windows8", NullValueHandling = NullValueHandling.Ignore)]
+        public PushRequestMessageCustomWindows8 Windows8 { get; set; }
+    }
+
+    internal class PushRequestMessageCustomWindows8
+    {
+        [DataMember, JsonProperty(PropertyName = "type", NullValueHandling = NullValueHandling.Ignore)]
+        public string Type { get; set; }
+
+        [DataMember, JsonProperty(PropertyName = "template_name", NullValueHandling = NullValueHandling.Ignore)]
+        public string TemplateName { get; set; }
+
+        [DataMember, JsonProperty(PropertyName = "template_fields", NullValueHandling = NullValueHandling.Ignore)]
+        public Dictionary<String, String> TemplateFields { get; set; } 
     }
 
     [JsonObject(MemberSerialization.OptIn)]
