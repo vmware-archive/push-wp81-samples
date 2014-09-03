@@ -2,27 +2,20 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Networking.PushNotifications;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 using MSSPush_Base.Models;
+using MSSPush_Base.Utilities;
 using MSSPush_Universal;
-using Newtonsoft.Json;
 using push_wp81_sample.Model;
 
 namespace push_wp81_sample
@@ -85,7 +78,7 @@ namespace push_wp81_sample
 
         private static MSSParameters GetMssParameters()
         {
-            return new MSSParameters(VariantUuid, VariantSecret, BaseUrl, DeviceAlias);
+            return new MSSParameters(VariantUuid, VariantSecret, BaseUrl, DeviceAlias, new HashSet<string>{"TAG1", "TAG2", "TAG4"});
         }
 
         private void Log(string logString)
@@ -151,7 +144,8 @@ namespace push_wp81_sample
                 }
                 var deviceUuids = new string[] {deviceUuid as String};
                 var request = PushRequest.MakePushRequest("This message was pushed at " + System.DateTime.Now, deviceUuids, "raw", "ToastText01", new Dictionary<string, string>() {{"textField1", "This message is all toasty!"}});
-                var jsonString = JsonConvert.SerializeObject(request);
+                var jsonSerializer = new JsonSerializer<PushRequest>();
+                var jsonString = jsonSerializer.SerializeToJson(request);
                 var bytes = Encoding.UTF8.GetBytes(jsonString);
                 stream.Write(bytes, 0, bytes.Length);
             }
