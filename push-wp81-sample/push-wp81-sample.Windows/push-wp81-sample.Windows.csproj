@@ -126,14 +126,6 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="MSSPush-Base">
-      <HintPath>..\..\lib\MSSPush-Base.dll</HintPath>
-    </Reference>
-    <Reference Include="MSSPush-Universal">
-      <HintPath>..\..\lib\MSSPush-Universal.dll</HintPath>
-    </Reference>
-  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
   </PropertyGroup>

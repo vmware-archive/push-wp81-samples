@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Networking.PushNotifications;
@@ -144,7 +145,7 @@ namespace push_wp81_sample
                 }
                 var deviceUuids = new string[] {deviceUuid as String};
                 var request = PushRequest.MakePushRequest("This message was pushed at " + System.DateTime.Now, deviceUuids, "raw", "ToastText01", new Dictionary<string, string>() {{"textField1", "This message is all toasty!"}});
-                var jsonSerializer = new JsonSerializer<PushRequest>();
+                var jsonSerializer = new JsonSerializer(typeof(PushRequest));
                 var jsonString = jsonSerializer.SerializeToJson(request);
                 var bytes = Encoding.UTF8.GetBytes(jsonString);
                 stream.Write(bytes, 0, bytes.Length);
@@ -173,10 +174,9 @@ namespace push_wp81_sample
                 return;
             }
 
-            string jsonResponse = null;
             using (var reader = new StreamReader(httpResponse.GetResponseStream()))
             {
-                jsonResponse = await reader.ReadToEndAsync();
+                string jsonResponse = await reader.ReadToEndAsync();
                 Log("Error requesting push message: " + jsonResponse);
             }
         }
