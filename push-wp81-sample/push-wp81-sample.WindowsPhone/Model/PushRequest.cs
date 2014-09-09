@@ -8,10 +8,10 @@ namespace push_wp81_sample.Model
     [DataContract]
     class PushRequest
     {
-        [DataMember(Name = "message")]
+        [DataMember(Name = "message", EmitDefaultValue = false)]
         public PushRequestMessage Message { get; set; }
 
-        [DataMember(Name = "target")]
+        [DataMember(Name = "target", EmitDefaultValue = false)]
         public PushRequestTarget Target { get; set; }
 
         private PushRequest()
@@ -48,39 +48,39 @@ namespace push_wp81_sample.Model
     [DataContract]
     internal class PushRequestMessage
     {
-        [DataMember(Name = "body")]
+        [DataMember(Name = "body", EmitDefaultValue = false)]
         public string Body { get; set; }
 
-        [DataMember(Name = "custom")]        
+        [DataMember(Name = "custom", EmitDefaultValue = false)]        
         public PushRequestMessageCustom Custom { get; set; }
     }
 
     [DataContract]
     internal class PushRequestMessageCustom
     {
-        [DataMember(Name = "windows8")]
+        [DataMember(Name = "windows8", EmitDefaultValue = false)]
         public PushRequestMessageCustomWindows8 Windows8 { get; set; }
     }
 
     internal class PushRequestMessageCustomWindows8
     {
-        [DataMember(Name = "type")]
+        [DataMember(Name = "type", EmitDefaultValue = false)]
         public string Type { get; set; }
 
-        [DataMember(Name = "template_name")]
+        [DataMember(Name = "template_name", EmitDefaultValue = false)]
         public string TemplateName { get; set; }
 
-        [DataMember(Name = "template_fields")]
+        [DataMember(Name = "template_fields", EmitDefaultValue = false)]
         public Dictionary<String, String> TemplateFields { get; set; } 
     }
 
     [DataContract]
     internal class PushRequestTarget
     {
-        [DataMember(Name = "platform")]
+        [DataMember(Name = "platform", EmitDefaultValue = false)]
         public string Platform { get; set; }
-     
-        [DataMember(Name = "devices")]
+
+        [DataMember(Name = "devices", EmitDefaultValue = false)]
         public string[] Devices { get; set; }
     }
 }
